@@ -30,7 +30,7 @@ class MergeIntoFile {
                 name: plugin.name,
                 stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
               },
-              (_, callback) => this.run(compilation, callback),
+              (_, callback) => this.run(compiler, compilation, callback),
             );
           } else if (!emitHookSet) {
             emitHookSet = true;
@@ -58,7 +58,24 @@ class MergeIntoFile {
     return hashPart;
   }
 
-  run(compilation, callback) {
+  static getContentHash(compiler, compilation, source) {
+    const { outputOptions } = compilation;
+    const { hashDigest, hashDigestLength, hashFunction, hashSalt } =
+        outputOptions;
+    const hash = compiler.webpack.util.createHash(hashFunction);
+
+    if (hashSalt) {
+      hash.update(hashSalt);
+    }
+
+    hash.update(source);
+
+    const fullContentHash = hash.digest(hashDigest);
+
+    return fullContentHash.slice(0, hashDigestLength);
+  }
+
+  run(compiler, compilation, callback) {
     const {
       files,
       transform,
@@ -115,8 +132,7 @@ class MergeIntoFile {
         const hasTransformFileNameFn = typeof transformFileName === 'function';
 
         if (hash || hasTransformFileNameFn) {
-          const hashPart = MergeIntoFile.getHashOfRelatedFile(compilation.assets, newFileName)
-          || revHash(resultsFiles[newFileName]);
+          const hashPart = MergeIntoFile.getContentHash(compiler, compilation, resultsFiles[newFileName]);
 
           if (hasTransformFileNameFn) {
             const extensionPattern = /\.[^.]*$/g;

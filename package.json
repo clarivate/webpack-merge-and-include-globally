@@ -1,8 +1,8 @@
 {
   "name": "@omr78/webpack-merge-and-include-globally",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Merge multiple files (js,css..) into single file to include somewhere",
-  "main": "index.node6-compatible.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest",
     "build": "webpack --progress && cp example/index.html dist/index.html",
