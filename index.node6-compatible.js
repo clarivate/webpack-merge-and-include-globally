@@ -126,7 +126,7 @@ var MergeIntoFile = /*#__PURE__*/function () {
               name: plugin.name,
               stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL
             }, function (_, callback) {
-              return _this.run(compilation, callback);
+              return _this.run(compiler, compilation, callback);
             });
           } else if (!emitHookSet) {
             emitHookSet = true;
@@ -139,7 +139,7 @@ var MergeIntoFile = /*#__PURE__*/function () {
     }
   }, {
     key: "run",
-    value: function run(compilation, callback) {
+    value: function run(compiler, compilation, callback) {
       var _this2 = this;
 
       var _this$options = this.options,
@@ -244,7 +244,7 @@ var MergeIntoFile = /*#__PURE__*/function () {
                     var hasTransformFileNameFn = typeof transformFileName === 'function';
 
                     if (hash || hasTransformFileNameFn) {
-                      var hashPart = MergeIntoFile.getHashOfRelatedFile(compilation.assets, newFileName) || revHash(resultsFiles[newFileName]);
+                      var hashPart = MergeIntoFile.getContentHash(compiler, compilation, resultsFiles[newFileName]);
 
                       if (hasTransformFileNameFn) {
                         var extensionPattern = /\.[^.]*$/g;
@@ -345,6 +345,24 @@ var MergeIntoFile = /*#__PURE__*/function () {
         }
       });
       return hashPart;
+    }
+  }, {
+    key: "getContentHash",
+    value: function getContentHash(compiler, compilation, source) {
+      var outputOptions = compilation.outputOptions;
+      var hashDigest = outputOptions.hashDigest,
+          hashDigestLength = outputOptions.hashDigestLength,
+          hashFunction = outputOptions.hashFunction,
+          hashSalt = outputOptions.hashSalt;
+      var hash = compiler.webpack.util.createHash(hashFunction);
+
+      if (hashSalt) {
+        hash.update(hashSalt);
+      }
+
+      hash.update(source);
+      var fullContentHash = hash.digest(hashDigest);
+      return fullContentHash.slice(0, hashDigestLength);
     }
   }]);
   return MergeIntoFile;
