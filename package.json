@@ -1,5 +1,5 @@
 {
-  "name": "@omr78/webpack-merge-and-include-globally",
+  "name": "@slargemain/webpack-merge-and-include-globally",
   "version": "1.0.2",
   "description": "Merge multiple files (js,css..) into single file to include somewhere",
   "main": "index.js",
