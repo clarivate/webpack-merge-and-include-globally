@@ -1,5 +1,5 @@
 {
-  "name": "@slargemain/webpack-merge-and-include-globally",
+  "name": "@clarivate/webpack-merge-and-include-globally",
   "version": "1.0.2",
   "description": "Merge multiple files (js,css..) into single file to include somewhere",
   "main": "index.js",
@@ -55,12 +55,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/markshapiro/webpack-merge-and-include-globally.git"
+    "url": "git+https://github.com/slargemain/webpack-merge-and-include-globally.git"
   },
   "bugs": {
-    "url": "https://github.com/markshapiro/webpack-merge-and-include-globally/issues"
+    "url": "https://github.com/slargemain/webpack-merge-and-include-globally/issues"
   },
-  "homepage": "https://github.com/markshapiro/webpack-merge-and-include-globally#readme",
+  "homepage": "https://github.com/slargemain/webpack-merge-and-include-globally#readme",
   "author": "Mark Shapiro",
   "license": "MIT"
 }
